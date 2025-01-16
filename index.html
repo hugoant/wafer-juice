@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wafer Die Calculator</title>
+  <link rel="icon" type="image/x-icon" href="icon_dieperwafer.ico">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Apple-like navigation bar -->
+  <nav class="navbar">
+    <div class="nav-logo">Die Per Wafer Calculator - by Hugo ANTOINE</div>
+
+    <a href="https://www.linkedin.com/in/hugo-antoine/" target="_blank">
+      <img src="linkedin.svg" alt="LinkedIn" class="linkedin-icon" />
+    </a>
+  </nav>
+
+  <div class="container">
+    <h1 class="title">Wafer Die Calculator</h1>
+
+    <div class="main-content">
+      <!-- Left column: input form -->
+      <div class="inputs-card">
+        <div class="form-row">
+          <label for="waferDiameter">Wafer Diameter (mm):</label>
+          <select id="waferDiameter">
+            <option value="300">300 mm</option>
+            <option value="200">200 mm</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="edgeExclusion">Edge Exclusion (mm):</label>
+          <input type="number" id="edgeExclusion" value="3" step="0.1"/>
+        </div>
+
+        <div class="form-row">
+          <label for="dieWidth">Die Width (mm):</label>
+          <input type="number" id="dieWidth" value="10" step="0.1"/>
+        </div>
+
+        <div class="form-row">
+          <label for="dieLength">Die Length (mm):</label>
+          <input type="number" id="dieLength" value="10" step="0.1"/>
+        </div>
+
+        <div class="form-row">
+          <label for="xScribe">X Scribe (mm):</label>
+          <input type="number" id="xScribe" value="0.2" step="0.1"/>
+        </div>
+
+        <div class="form-row">
+          <label for="yScribe">Y Scribe (mm):</label>
+          <input type="number" id="yScribe" value="0.2" step="0.1"/>
+        </div>
+
+        <div class="form-row">
+          <label for="yieldValue">Yield (%):</label>
+          <input type="number" id="yieldValue" value="85" step="1" min="0" max="100"/>
+        </div>
+
+        <button id="calculateBtn" class="apple-btn">Calculate</button>
+      </div>
+
+      <!-- Right column (middle+right actually):
+           wafer in the center, results on the right
+           all in one flex container. -->
+      <div class="wafer-and-results">
+        <!-- Flex container to keep wafer and result box side-by-side -->
+        <div class="wafer-container">
+          <canvas id="waferCanvas" width="600" height="600"></canvas>
+
+          <!-- Result box (same height as waferContainer) -->
+          <div class="result-box">
+            <h2>Results</h2>
+            
+            <div class="result-item">
+              <span class="result-label">🧩 Total Dies:</span>
+              <span id="dieCount" class="result-value">0</span>
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">✅ Good Dies*:</span>
+              <span id="goodDieCount" class="result-value">0</span>
+            </div>            
+
+            <div class="result-item">
+              <span class="result-label">📏 Die Size:</span>
+              <span id="dieSize" class="result-value">-</span> mm²
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">➕ Total Die Area:</span>
+              <span id="dieArea" class="result-value">-</span> mm²
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">⚙️ Wafer Utilization Rate:</span>
+              <span id="utilRate" class="result-value">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to your existing JavaScript -->
+  <script src="script_v3.1.js"></script>
+
+
+</body>
+</html>
