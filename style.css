@@ -269,7 +269,7 @@ body.dark {
 }
 
 /* Optional: For even smaller screens, adjust the two-inputs layout */
-@media (max-width: 600px) {
+@media (max-width: 300px) {
   .two-inputs {
     grid-template-columns: 1fr;
   }
