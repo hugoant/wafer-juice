@@ -8,14 +8,21 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- Apple-like navigation bar -->
   <nav class="navbar">
     <div class="nav-logo">Die Per Wafer Calculator - by Hugo ANTOINE</div>
-
-    <a href="https://www.linkedin.com/in/hugo-antoine/" target="_blank">
-      <img src="linkedin.svg" alt="LinkedIn" class="linkedin-icon" />
-    </a>
+    <div class="nav-right">
+      <!-- Toggle switch for dark mode -->
+      <div class="toggle-switch">
+        <input type="checkbox" id="darkModeToggle">
+        <label for="darkModeToggle" class="toggle-label">
+          <span class="toggle-ball"></span>
+        </label>
+      </div>
+      <a href="https://www.linkedin.com/in/hugo-antoine/" target="_blank">
+        <img src="linkedin.svg" alt="LinkedIn" class="linkedin-icon" />
+      </a>
+    </div>
   </nav>
 
   <div class="container">
@@ -37,24 +44,28 @@
           <input type="number" id="edgeExclusion" value="3" step="0.1"/>
         </div>
 
-        <div class="form-row">
-          <label for="dieWidth">Die Width (mm):</label>
-          <input type="number" id="dieWidth" value="10" step="0.1"/>
+        <!-- Grouping Die Width and Die Length side by side -->
+        <div class="form-row two-inputs">
+          <div class="input-group">
+            <label for="dieWidth">Die Width (mm):</label>
+            <input type="number" id="dieWidth" value="10" step="0.1"/>
+          </div>
+          <div class="input-group">
+            <label for="dieLength">Die Length (mm):</label>
+            <input type="number" id="dieLength" value="10" step="0.1"/>
+          </div>
         </div>
 
-        <div class="form-row">
-          <label for="dieLength">Die Length (mm):</label>
-          <input type="number" id="dieLength" value="10" step="0.1"/>
-        </div>
-
-        <div class="form-row">
-          <label for="xScribe">X Scribe (mm):</label>
-          <input type="number" id="xScribe" value="0.2" step="0.1"/>
-        </div>
-
-        <div class="form-row">
-          <label for="yScribe">Y Scribe (mm):</label>
-          <input type="number" id="yScribe" value="0.2" step="0.1"/>
+        <!-- Grouping X Scribe and Y Scribe side by side -->
+        <div class="form-row two-inputs">
+          <div class="input-group">
+            <label for="xScribe">X Scribe (mm):</label>
+            <input type="number" id="xScribe" value="0.2" step="0.1"/>
+          </div>
+          <div class="input-group">
+            <label for="yScribe">Y Scribe (mm):</label>
+            <input type="number" id="yScribe" value="0.2" step="0.1"/>
+          </div>
         </div>
 
         <div class="form-row">
@@ -65,38 +76,30 @@
         <button id="calculateBtn" class="apple-btn">Calculate</button>
       </div>
 
-      <!-- Right column (middle+right actually):
-           wafer in the center, results on the right
-           all in one flex container. -->
+      <!-- Right column: wafer and results -->
       <div class="wafer-and-results">
-        <!-- Flex container to keep wafer and result box side-by-side -->
         <div class="wafer-container">
           <canvas id="waferCanvas" width="600" height="600"></canvas>
 
-          <!-- Result box (same height as waferContainer) -->
+          <!-- Result box -->
           <div class="result-box">
             <h2>Results</h2>
-            
             <div class="result-item">
               <span class="result-label">🧩 Total Dies:</span>
               <span id="dieCount" class="result-value">0</span>
             </div>
-
             <div class="result-item">
               <span class="result-label">✅ Good Dies:</span>
               <span id="goodDieCount" class="result-value">0</span>
-            </div>            
-
+            </div>
             <div class="result-item">
               <span class="result-label">📏 Die Size:</span>
               <span id="dieSize" class="result-value">-</span> mm²
             </div>
-
             <div class="result-item">
               <span class="result-label">➕ Total Die Area:</span>
               <span id="dieArea" class="result-value">-</span> mm²
             </div>
-
             <div class="result-item">
               <span class="result-label">⚙️ Wafer Utilization Rate:</span>
               <span id="utilRate" class="result-value">-</span>
@@ -107,9 +110,7 @@
     </div>
   </div>
 
-  <!-- Link to your existing JavaScript -->
+  <!-- Existing script -->
   <script src="script_v3.1.js"></script>
-
-
 </body>
 </html>

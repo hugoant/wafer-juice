@@ -6,9 +6,16 @@
 }
 html, body {
   height: 100%;
-  background-color: #F5F5F7; /* Light Apple gray */
+  /* Light mode background for html/body */
+  background-color: #F5F5F7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   color: #1D1D1F; 
+}
+
+/* When dark mode is active on either html or body, use dark background */
+html.dark,
+body.dark {
+  background-color: #121212;
 }
 
 /* Top Navigation */
@@ -19,12 +26,17 @@ html, body {
   box-shadow: 0 1px 5px rgba(0,0,0,0.1);
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .nav-logo {
   font-size: 1.2rem;
   font-weight: 600;
 }
-
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 .linkedin-icon {
   width: 30px;
   height: 30px;
@@ -34,11 +46,62 @@ html, body {
   opacity: 0.7;
 }
 
+/* Toggle Switch for Dark Mode */
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 30px;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-label {
+  display: block;
+  position: relative;
+  background: #ccc;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  transition: background 0.3s ease;
+}
+.toggle-ball {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.toggle-ball::after {
+  content: '☀️';
+  transition: content 0.3s ease;
+}
+.toggle-switch input:checked + .toggle-label {
+  background: #0071E3;
+}
+.toggle-switch input:checked + .toggle-label .toggle-ball {
+  transform: translateX(30px);
+}
+.toggle-switch input:checked + .toggle-label .toggle-ball::after {
+  content: '🌙';
+}
+
 /* Container for main content */
 .container {
   max-width: 1400px;
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 0 1rem 6rem;
 }
 
 /* Title */
@@ -50,7 +113,7 @@ html, body {
   letter-spacing: 0.5px;
 }
 
-/* Main layout: two columns => 
+/* Main layout: two columns 
    1) .inputs-card 
    2) .wafer-and-results (which itself has two columns: wafer + result) */
 .main-content {
@@ -75,14 +138,14 @@ html, body {
   flex-direction: column;
   margin-bottom: 1rem;
 }
-
 .form-row label {
   margin-bottom: 0.3rem;
   font-weight: 500;
 }
-
+/* Ensure input and select elements fill their container */
 .form-row select,
 .form-row input {
+  width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
   border: 1px solid #E5E5EA;
@@ -91,7 +154,6 @@ html, body {
   outline: none;
   transition: border 0.2s;
 }
-
 .form-row select:focus,
 .form-row input:focus {
   border-color: #0071E3;
@@ -114,30 +176,28 @@ html, body {
   background-color: #005BB5; 
 }
 
-/* wafer-and-results is the right column, 
-   but it itself is just a container for .wafer-container */
+/* Right column: wafer-and-results container */
 .wafer-and-results {
   flex: 1; /* take remaining space */
   display: flex;
-  /* We'll do a single child .wafer-container that can fill 100% width */
 }
 
-/* wafer-container: wafer on left, result-box on the right, same height */
+/* Wafer-container: wafer on left, result-box on the right, same height */
 .wafer-container {
   display: flex; 
   flex: 1;
   background-color: #fff;
   border-radius: 14px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-  overflow: hidden; /* so if anything overflows, it's clipped */
+  overflow: hidden; /* clip any overflow */
 }
 
 /* Wafer canvas on the left */
 #waferCanvas {
   flex: 3; /* give wafer more space than the result box */
-  background-color: #FFFFFF;
+  /*background-color: #FFFFFF;*/
   border-right: 1px solid #E5E5EA; /* subtle divider */
-  display: block; /* ensure it behaves like a block in flex */
+  display: block;
 }
 
 /* Result box on the right */
@@ -148,15 +208,12 @@ html, body {
   justify-content: center;
   padding: 1.5rem;
 }
-
-/* Styling for text inside result box */
 .result-box h2 {
   text-align: left;
   font-weight: 600;
   font-size: 1.4rem;
   margin-bottom: 1rem;
 }
-
 /* Each row of data (label + value) */
 .result-item {
   margin-bottom: 1rem;
@@ -175,7 +232,18 @@ html, body {
   color: #0071E3;
 }
 
-/* Responsive: stack everything vertically on smaller screens */
+/* --- New CSS for grouping two inputs side by side --- */
+.two-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.two-inputs .input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive: stack columns vertically on smaller screens */
 @media (max-width: 1000px) {
   .main-content {
     flex-direction: column;
@@ -183,11 +251,9 @@ html, body {
   .inputs-card {
     max-width: 100%;
   }
-  /* The wafer-and-results container will become full width,
-     wafer and result box stacked vertically */
   .wafer-container {
     flex-direction: column;
-    height: auto; /* let it grow */
+    height: auto;
   }
   #waferCanvas {
     flex: none;
@@ -200,4 +266,69 @@ html, body {
     width: 100%;
     padding: 1rem;
   }
+}
+
+/* Optional: For even smaller screens, adjust the two-inputs layout */
+@media (max-width: 600px) {
+  .two-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================== */
+/*        DARK MODE      */
+/* ===================== */
+body.dark .navbar {
+  background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%);
+  box-shadow: 0 1px 5px rgba(255,255,255,0.1);
+}
+body.dark .nav-logo {
+  color: #e0e0e0;
+}
+
+body.dark .title {
+  color: #e0e0e0;
+}
+
+body.dark .inputs-card,
+body.dark .wafer-container,
+body.dark .result-box {
+  background-color: #1e1e1e;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  color: #e0e0e0;
+}
+body.dark .form-row select,
+body.dark .form-row input {
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+  color: #e0e0e0;
+}
+body.dark .form-row select:focus,
+body.dark .form-row input:focus {
+  border-color: #3399ff;
+}
+body.dark .apple-btn {
+  background-color: #3399ff;
+  color: #ffffff;
+}
+body.dark .apple-btn:hover {
+  background-color: #3399ff;
+}
+
+body.dark .result-box h2,
+body.dark .result-item,
+body.dark .result-label {
+  color: #e0e0e0;
+}
+
+body.dark .result-value {
+  color: #3399ff;
+}
+
+/* Dark mode: Toggle Switch adjustments */
+body.dark .toggle-label {
+  background: #444;
+}
+body.dark .toggle-switch input:checked + .toggle-label {
+  background: #3399ff;
 }
